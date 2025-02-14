@@ -1,6 +1,7 @@
 package com.ehcanza.book_market.services
 
 import com.ehcanza.book_market.entities.Book
+import com.ehcanza.book_market.entities.Customer
 import com.ehcanza.book_market.enums.BookStatus
 import com.ehcanza.book_market.repositories.BookRepository
 import org.springframework.stereotype.Service
@@ -33,6 +34,14 @@ class BookService(
         val book = findById(id)
         book.status = BookStatus.CANCELADO
         update(book)
+    }
+
+    fun deleteByCustomer(customer: Customer) {
+        val books = repository.findByCustomer(customer)
+        for(book in books) {
+            book.status = BookStatus.DELETADO
+        }
+        repository.saveAll(books)
     }
 
 }

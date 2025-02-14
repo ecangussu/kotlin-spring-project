@@ -1,5 +1,6 @@
 package com.ehcanza.book_market.entities
 
+import com.ehcanza.book_market.enums.CustomerStatus
 import jakarta.persistence.*
 
 @Entity
@@ -13,6 +14,9 @@ data class Customer(
     var name: String,
 
     @Column(unique = true)
-    var email: String
+    var email: String,
+
+    @Enumerated(EnumType.STRING)
+    var status: CustomerStatus
 
 )

@@ -16,11 +16,26 @@ data class Book(
 
     var price: BigDecimal,
 
-    @Enumerated(EnumType.STRING)
-    var status: BookStatus? = null,
-
     @ManyToOne
     @JoinColumn(name = "customer_id")
     var customer: Customer? = null
 
-)
+) {
+
+    constructor(id: Long? = null,
+                name: String,
+                price: BigDecimal,
+                customer: Customer? = null,
+                status: BookStatus?): this(id, name, price, customer) {
+                    this.status = status
+                }
+
+    @Enumerated(EnumType.STRING)
+    var status: BookStatus? = null
+        set(value) {
+            if(field == BookStatus.CANCELADO || field == BookStatus.DELETADO)
+                throw Exception("Não é possível alterar o status de um livro ${BookStatus.CANCELADO} ou ${BookStatus.DELETADO}")
+            field = value
+        }
+
+}
