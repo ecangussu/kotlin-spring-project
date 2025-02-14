@@ -1,6 +1,7 @@
 package com.ehcanza.book_market.controllers
 
 import com.ehcanza.book_market.entities.Book
+import com.ehcanza.book_market.enums.BookStatus
 import com.ehcanza.book_market.extensions.toBook
 import com.ehcanza.book_market.requests.PostBookRequest
 import com.ehcanza.book_market.requests.PutBookRequest
@@ -17,14 +18,12 @@ class BookController(
 ) {
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): Book {
-        return bookService.findById(id)
-    }
+    fun findById(@PathVariable id: Long): Book =
+        bookService.findById(id)
 
     @GetMapping
-    fun findAll(@RequestParam name: String?): List<Book> {
-        return bookService.findAll(name)
-    }
+    fun findAll(@RequestParam status: BookStatus?): List<Book> =
+        bookService.findAll(status)
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -36,13 +35,13 @@ class BookController(
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun update(@PathVariable id: Long, @RequestBody book: PutBookRequest) {
-        bookService.update(book.toBook(id))
+        val bookFromDB = bookService.findById(id)
+        bookService.update(book.toBook(bookFromDB))
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable id: Long) {
+    fun delete(@PathVariable id: Long) =
         bookService.delete(id)
-    }
 
 }

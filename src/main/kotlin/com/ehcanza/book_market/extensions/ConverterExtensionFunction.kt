@@ -9,17 +9,35 @@ import com.ehcanza.book_market.requests.PutBookRequest
 import com.ehcanza.book_market.requests.PutCustomerRequest
 
 fun PostCustomerRequest.toCustomer(): Customer {
-    return Customer(name = this.name, email = this.email)
+    return Customer(
+        name = this.name,
+        email = this.email
+    )
 }
 
 fun PutCustomerRequest.toCustomer(id: Long): Customer {
-    return Customer(id = id, name = this.name, email = this.email)
+    return Customer(
+        id = id,
+        name = this.name,
+        email = this.email
+    )
 }
 
 fun PostBookRequest.toBook(customer: Customer): Book {
-    return Book(name = this.name, price = this.price, status = BookStatus.ATIVO, customer = customer)
+    return Book(
+        name = this.name,
+        price = this.price,
+        status = BookStatus.ATIVO,
+        customer = customer
+    )
 }
 
-fun PutBookRequest.toBook(id: Long): Book {
-    return Book(id = id, name = this.name, price = this.price)
+fun PutBookRequest.toBook(book: Book): Book {
+    return Book(
+        id = book.id,
+        name = this.name ?: book.name,
+        price = this.price ?: book.price,
+        status = book.status,
+        customer = book.customer
+    )
 }

@@ -1,6 +1,7 @@
 package com.ehcanza.book_market.services
 
 import com.ehcanza.book_market.entities.Book
+import com.ehcanza.book_market.enums.BookStatus
 import com.ehcanza.book_market.repositories.BookRepository
 import org.springframework.stereotype.Service
 
@@ -13,9 +14,9 @@ class BookService(
         return repository.findById(id).orElseThrow()
     }
 
-    fun findAll(name: String?): List<Book> {
-        name?.let {
-            return repository.findByNameContaining(it)
+    fun findAll(status: BookStatus?): List<Book> {
+        status?.let {
+            return repository.findByStatus(status)
         }
         return repository.findAll()
     }
@@ -25,17 +26,13 @@ class BookService(
     }
 
     fun update(book: Book) {
-        if(!repository.existsById(book.id!!)) {
-            throw Exception()
-        }
         repository.save(book)
     }
 
     fun delete(id: Long) {
-        if(!repository.existsById(id)) {
-            throw Exception()
-        }
-        repository.deleteById(id)
+        val book = findById(id)
+        book.status = BookStatus.CANCELADO
+        update(book)
     }
 
 }
