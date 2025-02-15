@@ -8,6 +8,9 @@ import com.ehcanza.book_market.requests.PutBookRequest
 import com.ehcanza.book_market.response.BookResponse
 import com.ehcanza.book_market.services.BookService
 import com.ehcanza.book_market.services.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -23,8 +26,9 @@ class BookController(
         bookService.findById(id).toResponse()
 
     @GetMapping
-    fun findAll(@RequestParam status: BookStatus?): List<BookResponse> =
-        bookService.findAll(status).map { it.toResponse() }
+    fun findAll(@PageableDefault(page = 0, size = 10) pageable: Pageable,
+                @RequestParam status: BookStatus?): Page<BookResponse> =
+        bookService.findAll(pageable, status).map { it.toResponse() }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

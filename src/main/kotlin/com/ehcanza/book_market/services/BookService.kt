@@ -5,6 +5,8 @@ import com.ehcanza.book_market.entities.Customer
 import com.ehcanza.book_market.enums.BookStatus
 import com.ehcanza.book_market.enums.CustomerStatus
 import com.ehcanza.book_market.repositories.BookRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,11 +18,11 @@ class BookService(
         return repository.findById(id).orElseThrow()
     }
 
-    fun findAll(status: BookStatus?): List<Book> {
+    fun findAll(pageable: Pageable, status: BookStatus?): Page<Book> {
         status?.let {
-            return repository.findByStatus(status)
+            return repository.findByStatus(pageable, status)
         }
-        return repository.findAll()
+        return repository.findAll(pageable)
     }
 
     fun insert(book: Book) {
