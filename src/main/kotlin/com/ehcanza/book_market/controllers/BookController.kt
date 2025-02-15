@@ -1,10 +1,11 @@
 package com.ehcanza.book_market.controllers
 
-import com.ehcanza.book_market.entities.Book
 import com.ehcanza.book_market.enums.BookStatus
 import com.ehcanza.book_market.extensions.toBook
+import com.ehcanza.book_market.extensions.toResponse
 import com.ehcanza.book_market.requests.PostBookRequest
 import com.ehcanza.book_market.requests.PutBookRequest
+import com.ehcanza.book_market.response.BookResponse
 import com.ehcanza.book_market.services.BookService
 import com.ehcanza.book_market.services.CustomerService
 import org.springframework.http.HttpStatus
@@ -18,12 +19,12 @@ class BookController(
 ) {
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): Book =
-        bookService.findById(id)
+    fun findById(@PathVariable id: Long): BookResponse =
+        bookService.findById(id).toResponse()
 
     @GetMapping
-    fun findAll(@RequestParam status: BookStatus?): List<Book> =
-        bookService.findAll(status)
+    fun findAll(@RequestParam status: BookStatus?): List<BookResponse> =
+        bookService.findAll(status).map { it.toResponse() }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

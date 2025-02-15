@@ -8,6 +8,8 @@ import com.ehcanza.book_market.requests.PostBookRequest
 import com.ehcanza.book_market.requests.PostCustomerRequest
 import com.ehcanza.book_market.requests.PutBookRequest
 import com.ehcanza.book_market.requests.PutCustomerRequest
+import com.ehcanza.book_market.response.BookResponse
+import com.ehcanza.book_market.response.CustomerResponse
 
 fun PostCustomerRequest.toCustomer(): Customer {
     return Customer(
@@ -23,6 +25,15 @@ fun PutCustomerRequest.toCustomer(customer: Customer): Customer {
         name = this.name ?: customer.name,
         email = this.email ?: customer.email,
         status = this.status ?: customer.status
+    )
+}
+
+fun Customer.toResponse(): CustomerResponse {
+    return CustomerResponse(
+        id = this.id,
+        name = this.name,
+        email = this.email,
+        status = this.status
     )
 }
 
@@ -42,5 +53,15 @@ fun PutBookRequest.toBook(book: Book): Book {
         price = this.price ?: book.price,
         status = book.status,
         customer = book.customer
+    )
+}
+
+fun Book.toResponse(): BookResponse {
+    return BookResponse(
+        id = this.id,
+        name = this.name,
+        price = this.price,
+        customer = this.customer,
+        status = this.status
     )
 }

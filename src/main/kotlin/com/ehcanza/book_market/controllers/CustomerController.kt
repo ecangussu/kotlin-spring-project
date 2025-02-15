@@ -1,9 +1,10 @@
 package com.ehcanza.book_market.controllers
 
-import com.ehcanza.book_market.entities.Customer
 import com.ehcanza.book_market.extensions.toCustomer
+import com.ehcanza.book_market.extensions.toResponse
 import com.ehcanza.book_market.requests.PostCustomerRequest
 import com.ehcanza.book_market.requests.PutCustomerRequest
+import com.ehcanza.book_market.response.CustomerResponse
 import com.ehcanza.book_market.services.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -15,13 +16,13 @@ class CustomerController(
 ) {
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): Customer {
-        return service.findById(id)
+    fun findById(@PathVariable id: Long): CustomerResponse {
+        return service.findById(id).toResponse()
     }
 
     @GetMapping
-    fun findAll(@RequestParam name: String?): List<Customer> {
-        return service.findAll(name)
+    fun findAll(@RequestParam name: String?): List<CustomerResponse> {
+        return service.findAll(name).map { it.toResponse()}
     }
 
     @PostMapping
