@@ -3,6 +3,7 @@ package com.ehcanza.book_market.services
 import com.ehcanza.book_market.entities.Book
 import com.ehcanza.book_market.entities.Customer
 import com.ehcanza.book_market.enums.BookStatus
+import com.ehcanza.book_market.enums.CustomerStatus
 import com.ehcanza.book_market.repositories.BookRepository
 import org.springframework.stereotype.Service
 
@@ -23,6 +24,9 @@ class BookService(
     }
 
     fun insert(book: Book) {
+        if(book.customer?.status == CustomerStatus.INATIVO) {
+            throw Exception("Não é possível vincular o livro a um cliente ${CustomerStatus.INATIVO}")
+        }
         repository.save(book)
     }
 
