@@ -4,6 +4,8 @@ import com.ehcanza.book_market.entities.Book
 import com.ehcanza.book_market.entities.Customer
 import com.ehcanza.book_market.enums.BookStatus
 import com.ehcanza.book_market.enums.CustomerStatus
+import com.ehcanza.book_market.enums.Errors
+import com.ehcanza.book_market.exceptions.NotFoundException
 import com.ehcanza.book_market.repositories.BookRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -15,7 +17,7 @@ class BookService(
 ) {
 
     fun findById(id: Long): Book {
-        return repository.findById(id).orElseThrow()
+        return repository.findById(id).orElseThrow { NotFoundException(Errors.BM1001.message.format(id), Errors.BM1001.code) }
     }
 
     fun findAll(pageable: Pageable, status: BookStatus?): Page<Book> {

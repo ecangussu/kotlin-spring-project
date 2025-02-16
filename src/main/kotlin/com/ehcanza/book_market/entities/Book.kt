@@ -1,6 +1,8 @@
 package com.ehcanza.book_market.entities
 
 import com.ehcanza.book_market.enums.BookStatus
+import com.ehcanza.book_market.enums.Errors
+import com.ehcanza.book_market.exceptions.BadRequestException
 import jakarta.persistence.*
 import java.math.BigDecimal
 
@@ -34,7 +36,7 @@ data class Book(
     var status: BookStatus? = null
         set(value) {
             if(field == BookStatus.CANCELADO || field == BookStatus.DELETADO)
-                throw Exception("Não é possível alterar o status de um livro ${BookStatus.CANCELADO} ou ${BookStatus.DELETADO}")
+                throw BadRequestException(Errors.BM1002.message.format(field), Errors.BM1002.code)
             field = value
         }
 

@@ -2,6 +2,8 @@ package com.ehcanza.book_market.services
 
 import com.ehcanza.book_market.entities.Customer
 import com.ehcanza.book_market.enums.CustomerStatus
+import com.ehcanza.book_market.enums.Errors
+import com.ehcanza.book_market.exceptions.NotFoundException
 import com.ehcanza.book_market.repositories.CustomerRepository
 import org.springframework.stereotype.Service
 
@@ -12,7 +14,7 @@ class CustomerService(
 ) {
 
     fun findById(id: Long): Customer {
-        return customerRepository.findById(id).orElseThrow()
+        return customerRepository.findById(id).orElseThrow { NotFoundException(Errors.BM2001.message.format(id), Errors.BM2001.code) }
     }
 
     fun findAll(name: String?): List<Customer> {
