@@ -6,6 +6,7 @@ import com.ehcanza.book_market.requests.PostCustomerRequest
 import com.ehcanza.book_market.requests.PutCustomerRequest
 import com.ehcanza.book_market.response.CustomerResponse
 import com.ehcanza.book_market.services.CustomerService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -22,12 +23,12 @@ class CustomerController(
 
     @GetMapping
     fun findAll(@RequestParam name: String?): List<CustomerResponse> {
-        return service.findAll(name).map { it.toResponse()}
+        return service.findAll(name).map { it.toResponse() }
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun insert(@RequestBody customer: PostCustomerRequest) {
+    fun insert(@RequestBody @Valid customer: PostCustomerRequest) {
         service.insert(customer.toCustomer())
     }
 

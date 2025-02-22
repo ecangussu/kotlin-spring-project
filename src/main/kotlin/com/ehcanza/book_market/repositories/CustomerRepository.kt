@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface CustomerRepository : JpaRepository<Customer, Long> {
 
     fun findByNameContaining(name: String): List<Customer>
+    fun existsByEmail(email: String): Boolean
 
 }

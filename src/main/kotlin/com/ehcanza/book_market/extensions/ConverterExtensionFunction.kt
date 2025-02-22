@@ -24,7 +24,7 @@ fun PutCustomerRequest.toCustomer(customer: Customer): Customer {
         id = customer.id,
         name = this.name ?: customer.name,
         email = this.email ?: customer.email,
-        status = this.status ?: customer.status
+        status = customer.status
     )
 }
 

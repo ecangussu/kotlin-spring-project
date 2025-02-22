@@ -8,6 +8,7 @@ import com.ehcanza.book_market.requests.PutBookRequest
 import com.ehcanza.book_market.response.BookResponse
 import com.ehcanza.book_market.services.BookService
 import com.ehcanza.book_market.services.CustomerService
+import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -32,7 +33,7 @@ class BookController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun insert(@RequestBody book: PostBookRequest) {
+    fun insert(@RequestBody @Valid book: PostBookRequest) {
         val customer = customerService.findById(book.customerId)
         bookService.insert(book.toBook(customer))
     }
